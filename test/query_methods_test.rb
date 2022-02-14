@@ -1,7 +1,6 @@
 require 'test_helper'
 
 class QueryMethodsTest < Minitest::Test
-
   def setup
     @order = create(:order)
   end
@@ -12,78 +11,78 @@ class QueryMethodsTest < Minitest::Test
 
   def test_update_json_top_level_string_field
     @order.json_update_columns(jsonb_data: {
-      string_field: 'Hello'
-    })
+                                 string_field: 'Hello'
+                               })
     assert_equal 'Hello', @order.reload.jsonb_data['string_field']
   end
 
   def test_can_update_json_column
     @order.json_update_columns(json_data: {
-      string_field: 'Hello'
-    })
+                                 string_field: 'Hello'
+                               })
     assert_equal 'Hello', @order.reload.json_data['string_field']
   end
 
   def test_update_json_top_level_int_field
     @order.json_update_columns(jsonb_data: {
-      int_field: 4
-    })
+                                 int_field: 4
+                               })
     assert_equal 4, @order.reload.jsonb_data['int_field']
   end
 
   def test_update_json_top_level_date_field
     @order.json_update_columns(jsonb_data: {
-      timestamp: Date.parse('2018/08/12')
-    })
+                                 timestamp: Date.parse('2018/08/12')
+                               })
     assert_equal '2018-08-12', @order.reload.jsonb_data['timestamp']
   end
 
   def test_update_json_top_level_time_field
     @order.json_update_columns(jsonb_data: {
-      timestamp: Time.parse('2018/08/12 10:00 UTC')
-    })
+                                 timestamp: Time.parse('2018/08/12 10:00 UTC')
+                               })
     assert_equal '2018-08-12T10:00:00.000Z', @order.reload.jsonb_data['timestamp']
   end
 
   def test_update_json_top_level_nil_field
     @order.json_update_columns(jsonb_data: {
-      null_field: nil
-    })
+                                 null_field: nil
+                               })
     assert_nil @order.reload.jsonb_data['null_field']
   end
 
   def test_update_json_top_level_array_field
     @order.json_update_columns(jsonb_data: {
-      array_field: [10, 12, 'asa']
-    })
+                                 array_field: [10, 12, 'asa']
+                               })
     assert_equal [10, 12, 'asa'], @order.reload.jsonb_data['array_field']
   end
 
   def test_update_json_top_level_boolean_field
     @order.json_update_columns(jsonb_data: {
-      boolean_field: false
-    })
+                                 boolean_field: false
+                               })
     assert_equal false, @order.reload.jsonb_data['boolean_field']
   end
 
   def test_update_json_multiple_top_level_keys
     @order.json_update_columns(jsonb_data: {
-      timestamp: Time.parse('2018/08/12 10:00 UTC'),
-      null_field: nil
-    })
+                                 timestamp: Time.parse('2018/08/12 10:00 UTC'),
+                                 null_field: nil
+                               })
     assert_equal '2018-08-12T10:00:00.000Z', @order.reload.jsonb_data['timestamp']
     assert_nil @order.reload.jsonb_data['null_field']
   end
 
   def test_update_json_nested_field
     @order.json_update_columns(jsonb_data: {
-      nested_field: {
-        nested_one: {
-          nested_two: 'salut!',
-          nested_three: 'hola!',
-        }
-      }
-    })
+                                 nested_field: {
+                                   nested_one: {
+                                     nested_two: 'salut!',
+                                     nested_three: 'hola!'
+                                   }
+                                 }
+                               })
     assert_equal(
       {
         nested_one: {
@@ -130,5 +129,4 @@ class QueryMethodsTest < Minitest::Test
       @order.json_update!(jsonb_data: { string_field: nil })
     end
   end
-
 end

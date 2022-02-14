@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-$LOAD_PATH.unshift File.expand_path("../../lib", __FILE__)
+$LOAD_PATH.unshift File.expand_path('../lib', __dir__)
 require 'atomic_json'
 
 require 'active_record'
@@ -11,9 +11,10 @@ require 'factory_bot'
 
 ## Define mock AR models
 class Order < ActiveRecord::Base
-
   after_commit :set_default, on: :create
-  before_save :before_update_callback, on: :update
+  before_save :before_update_callback, if: proc { |order|
+                                             !order.new_record?
+                                           } # alternative to deprecated on: :update
 
   validate :json_string_present, on: :update
 
@@ -31,7 +32,6 @@ class Order < ActiveRecord::Base
   def json_string_present
     errors.add(:jsonb_data, 'JSON string is missing') unless jsonb_data['string_field'].present?
   end
-
 end
 
 class Minitest::Test
@@ -44,4 +44,3 @@ class Minitest::Test
   # Retrieve FactoryBot definitions
   FactoryBot.find_definitions
 end
-
