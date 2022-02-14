@@ -22,7 +22,7 @@ Gem::Specification.new do |spec|
 
   spec.add_dependency 'activerecord', '~> 5.0'
   spec.add_runtime_dependency 'activesupport', '~> 5.2.2'
-  spec.add_runtime_dependency 'pg', '~> 0.18', '>= 0.18.1'
+  spec.add_runtime_dependency 'pg', '~> 0.18', '< 2.0'
   spec.add_development_dependency 'bundler', '~> 1.16'
   spec.add_development_dependency 'byebug', '~> 10.0', '>= 10.0.2'
   spec.add_development_dependency 'factory_bot', '~> 4.0'
