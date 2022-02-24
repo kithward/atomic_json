@@ -8,7 +8,8 @@ module AtomicJson
     end
 
     def jsonb_quote_value(value)
-      %('#{value.to_json}')
+      # make sure to escape single quotes so that psql doesn't complain (double them up)
+      %('#{value.to_json.to_str.gsub("'", "''")}')
     end
 
     def concatenation(target, keys, value)
